@@ -1,0 +1,17 @@
+{
+  "name": "pdf-table-json",
+  "version": "1.0.0",
+  "description": "Extract Tables in a pdf",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pdf-table-json"
+  ],
+  "author": "dileepxdn",
+  "license": "ISC",
+  "dependencies": {
+    "pdfjs-dist": "^1.5.446"
+  }
+}
