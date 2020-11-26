@@ -1,13 +1,10 @@
-const pdf_table_json = require("./index.js");
-
-const INDEX = 0;
+const pdf_table_json = require("../index");
 
 const { fetchNetProfit, fetchRevenue , fetchaccountsReceivables , fetchCurrentLiabilities } = require("./purefunctions");
 
 pdf_table_json("./ITR-5.pdf").then(res => {
-  console.log(res.pageTables[7].tables);
+  // console.log(res.pageTables[7].tables);
   pdfParser(res);
-
 });
 
 
@@ -16,8 +13,6 @@ const consts = {
   totalRevenue: 'DTotal Revenue from operations (A(iv) + B +C(ix))D',
   accountsReceivables: 'C.Total Sundry DebtorsiiC',
   currentLiabilities: 'iiiTotal (iG + iiD)diii'
-
-
 }
 
 mergePDFTables = (result) => {
@@ -45,6 +40,7 @@ pdfParser = (result) => {
 
     if (checkElementExists(element , consts.netProfit , 0)) {
       const textString = removeEmptyString(element);
+      // console.log(element);
       ITR5.netProfit = fetchNetProfit(textString , consts.netProfit);
     }
 
@@ -56,23 +52,11 @@ pdfParser = (result) => {
       ITR5.accountsReceivables =  fetchaccountsReceivables(element, consts.accountsReceivables , 2) 
     }
     if (checkElementExists(element, consts.currentLiabilities , 0)) {
-      console.log(fetchCurrentLiabilities(element, consts.currentLiabilities) , 'element');
-
       ITR5.currentLiabilities = fetchCurrentLiabilities(element, consts.currentLiabilities);
-      
-      // ITR5.accountsReceivables =  fetchaccountsReceivables(element, consts.accountsReceivables , 2) 
     }
-
-    
-
-    
-
-    // (Part A-BS)-B-3-a-ii-C
-
-    // (Part A )-4-D
-
   }
-  console.log(ITR5 , 'ITR5');
+
+  // console.log(ITR5 , 'ITR5');
   
   return ITR5;
   
