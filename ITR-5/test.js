@@ -1,11 +1,34 @@
 const pdf_table_json = require("../index");
 
+const axios = require("axios");
+
+const fs = require("fs");
+
 const { fetchNetProfit, fetchRevenue , fetchaccountsReceivables , fetchCurrentLiabilities, fetchtotalWages, fetchSundryCreditors, fetchtotalLiabiltiies } = require("./purefunctions");
 
-pdf_table_json("./ITR-5.pdf").then(res => {
-  // console.log(res.pageTables[4].tables);
-  pdfParser(res);
-});
+const S3URL = `https://actyv-assets.s3.ap-south-1.amazonaws.com/test-images/msme/ITR5.pdf`;
+
+  pdf_table_json("./ITR-5.pdf").then(res => {
+    console.log(res.pageTables[8].tables);
+    pdfParser(res);
+  });
+
+// async function downloadPDFFile (S3URL) {
+  
+//   const result = await axios.get(S3URL);
+
+//   const fileName = await writeXMLFile("test.pdf" , result && result.data, 'test.pdf');
+
+// }
+
+// function writeXMLFile(filePath, fileData , fileName) {
+//   return new Promise((resolve) => {
+//     fs.writeFile(filePath, fileData,  (err, data) => {
+//       if (err) return resolve(false);
+//       return resolve(fileName);
+//     });
+//   });
+// }
 
 
 const consts = {
@@ -27,9 +50,6 @@ const consts = {
   totalLiabiltiies : "iiiTotal (iG + iiD)diii",
   totalSecuredLoan : "iiiTotal secured loans (ai + iiC)aiii",
   totalUnsecuredLoan : "iiiTotal unsecured loans(bi + iiD)biii"
-
-  // "\n3. Total (1 + 2)A3"
-  // "eTotal(1c + 1d)1e"
 }
 
 mergePDFTables = (result) => {
@@ -96,7 +116,7 @@ pdfParser = (result) => {
 
   }
 
-  // console.log(ITR5 , 'ITR5');
+  console.log(ITR5 , 'ITR5');
   
   return ITR5;
   
@@ -126,7 +146,6 @@ formatITR5Object = () => {
     immediateAndCashEquivalents: 0,
     ebitda: 0,
     interestPayable: 0,
-    currentLiabilities: 0,
     netProfit: 0,
     debtorDays: 0,
     creditorDays: 0,
@@ -143,5 +162,6 @@ formatITR5Object = () => {
     totalSecuredLoan: 0,
     totalUnsecuredLoan: 0,
     inventory: 0,
+    totalIncome: 0,
   }
 }

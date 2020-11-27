@@ -12,6 +12,7 @@
   "author": "dileepxdn",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "pdfjs-dist": "^1.5.446"
   }
 }
