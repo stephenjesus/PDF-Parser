@@ -6,24 +6,27 @@ const { fetchNetProfit, fetchRevenue, fetchaccountsReceivables, fetchCurrentLiab
 
 
 const consts = {
-  netProfit: 'iiiTotal Profit (65(i)d + 65(ii)d)65iii',
+  netProfit : 'iiiTotal Profit (65(i)d + 65(ii)d)65iii',
   totalRevenue: 'DTotal Revenue from operations (A(iv) + B +C(ix))D',
   accountsReceivables: 'C.Total Sundry DebtorsiiC',
   currentLiabilities: 'iiiTotal (iG + iiD)diii',
   totalWages: "xiTotal compensation to employees(total of 22i to 22x)xi",
   grossTotalIncome: "Gross Total income (7 – 8)9",
-  totalAssets: "Total(av + biv)3c",
-  sundryCreditors: "Total (1 + 2)A3",
-  immediateAndCashEquivalents: "Total Cash and cash equivalents (iiiA + iiiB + iiiC)iiiD",
+  totalAssets : "Total(av + biv)3c",
+  sundryCreditors : "Total (1 + 2)A3",
+  immediateAndCashEquivalents : "Total Cash and cash equivalents (iiiA + iiiB + iiiC)iiiD",
   ebitda: "Profit before interest, depreciation and taxes [15 – (16 to 21 + 22xi + 23v + 24 to 29 + 30iii + 31iii + 32iii\n+ 33 to 43 + 44x + 45 + 46 + 47iii + 48iv + 49 + 50)]",
-  interestPayable: "Total (ia + ib + iia + iib)",
+  interestPayable : "Total (ia + ib + iia + iib)",
   totalInterestPaid: "Total (ia + ib + iia + iib)",
-  totalDebt: "c.Total Loan Funds(aiii + biii)2c",
+  totalDebt : "c.Total Loan Funds(aiii + biii)2c",
   totalEquity: "c.Total partners\' / members\' fund (a + bvi)1c",
-  depreciation: "Depreciation and amortisation.",
-  totalLiabiltiies: "iiiTotal (iG + iiD)diii",
-  totalSecuredLoan: "iiiTotal secured loans (ai + iiC)aiii",
-  totalUnsecuredLoan: "iiiTotal unsecured loans(bi + iiD)biii"
+  depreciation : "Depreciation and amortisation.",
+  totalLiabiltiies : "iiiTotal (iG + iiD)diii",
+  totalSecuredLoan : "iiiTotal secured loans (ai + iiC)aiii",
+  totalUnsecuredLoan : "iiiTotal unsecured loans(bi + iiD)biii",
+  inventory: "H. Total (iA + iB + iC + iD + iE + iF + iG)iH",// 2
+  producedGoodsCost: "3Cost of goods produced- transferred to trading account(1F-2)", // 0
+  remunerationOfPartner: "Salary/Remuneration to Partners of the firm46", //1
 }
 
 const S3URL = `https://actyv-assets.s3.ap-south-1.amazonaws.com/test-images/msme/ITR5.pdf`;
@@ -113,8 +116,14 @@ pdfParser = (result) => {
 
     if (checkElementExists(element, consts.totalUnsecuredLoan, 1)) ITR5.totalUnsecuredLoan = fetchtotalWages(element, consts.totalUnsecuredLoan, 1);
 
-  }
+    if (checkElementExists(element, consts.inventory, 2)) ITR5.inventory = fetchtotalWages(element, consts.inventory, 2);
 
+    if (checkElementExists(element, consts.producedGoodsCost, 0)) ITR5.producedGoodsCost = +fetchtotalWages(element, consts.producedGoodsCost, 0);
+
+    if (checkElementExists(element, consts.remunerationOfPartner, 1)) ITR5.remunerationOfPartner = +fetchtotalWages(element, consts.remunerationOfPartner, 1);
+
+  }
+  
   return ITR5;
 
 }
@@ -160,5 +169,7 @@ formatITR5Object = () => {
     totalUnsecuredLoan: 0,
     inventory: 0,
     totalIncome: 0,
+    producedGoodsCost: 0,
+    remunerationOfPartner: 0,
   }
 }
